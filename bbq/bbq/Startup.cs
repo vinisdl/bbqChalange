@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace bbq.Application
 {
@@ -24,7 +25,12 @@ namespace bbq.Application
 
             LoadCustomMiddlers(services, Configuration);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                            .AddJsonOptions(options =>
+                            {
+                                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                                options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+                            }); ;
         }
 
         private static void LoadDbConfig(IServiceCollection services)

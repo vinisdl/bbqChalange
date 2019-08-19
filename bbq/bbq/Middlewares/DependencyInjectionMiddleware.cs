@@ -19,7 +19,10 @@ namespace bbq.Application.Middlewares
         /// </summary>
         /// <param name="services">serviços</param>
         public static void AddDependencyInjection(this IServiceCollection services)
-        {                        
+        {
+            services.AddTransient<IBarbecueRepository, BarbecueRepository>();
+            services.AddTransient<IBarbecueParticipantRepository, BarbecueParticipantRepository>();
+            services.AddTransient<IBarbecueServices, BarbecueServices>();
             services.AddTransient<IUserRepository, UserMemoryRepository>();            
             services.AddTransient<IAuthBusinessCore, AuthBusinessCore>();
             services.AddTransient<ITokenBusinessCore, TokenBusinessCore>();

@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using bbq.Application.Filters;
+using bbq.Application.Operation_Filter;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 
 namespace bbq.Application.Middlewares
 {
@@ -19,11 +23,11 @@ namespace bbq.Application.Middlewares
                     {
                         Title = "bbq",
                         Version = "v1",
-                        Description = "Auhorization Jwt Api",
+                        Description = "BBQ API",
                         Contact = new Contact
                         {
-                            Name = "Alexandre Brandão Lustosa",
-                            Url = "https://github.com/alexandrebl/bbq"
+                            Name = "Marco Vinicius Soares Dalalba",
+                            Url = "www.marcodalalba.com"
                         }
                     });
 
@@ -33,6 +37,8 @@ namespace bbq.Application.Middlewares
                     Path.Combine(caminhoAplicacao, $"bbq.Application.xml");
 
                 c.IncludeXmlComments(caminhoXmlDoc);
+
+                c.OperationFilter<AddRequiredHeaderParameter>();
             });
         }
 
@@ -42,7 +48,7 @@ namespace bbq.Application.Middlewares
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                    "Auhorization Jwt Api");
+                    "BBQ API");
 
                 c.RoutePrefix = routePrefix;
             });
